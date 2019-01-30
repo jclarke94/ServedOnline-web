@@ -21,19 +21,24 @@ class User extends SO_Controller {
 		);
 
 		if ($result > 0) {
-			$validate = $this->User_model->validateUser($postdata["email"], $postdata["password"]);
+			// $validate = $this->user_model->validateUser($postdata["email"], $postdata["password"]);
 
-			if($validate) {
-				$authToken = $this->User_model->generateUserAuthToken($validate);
-				$customerResult = $this->User_model->getUser($validate);
+			// if($validate) {
+			// 	$authToken = $this->User_model->generateUserAuthToken($validate);
+			// 	$customerResult = $this->User_model->getUser($validate);
 
-				$outBundle = array(
-					"token" => $authToken, 
-					"user" => $customerResult
-				); 
+			// 	$outBundle = array(
+			// 		"token" => $authToken, 
+			// 		"user" => $customerResult
+			// 	); 
 
-				$this->JSON(array("success" => TRUE, "data" => $outBundle), 200);
-			}
+			// 	$this->JSON(array("success" => TRUE, "data" => $outBundle), 200);
+			// }
+
+			$outBundle = array(
+				"id" => $result
+			);
+			$this->JSON(array("success" => TRUE, "data" => $outBundle));
 		}
 
 		$this->JSON(array("success" => FALSE, "error" => $result));

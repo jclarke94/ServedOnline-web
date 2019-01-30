@@ -49,7 +49,7 @@ class User_model extends SO_Model {
 
         $this->db->where("email", $email);
 
-        $testResult = $this->db->get("appUser");
+        $testResult = $this->db->get("user");
 
         if ($testResult->num_rows() > 0) {
             $user = $testResult->first_row();
@@ -139,6 +139,12 @@ class User_model extends SO_Model {
 
 
     		$this->db->insert("user", $updateData);
+    		$id = $this->db->insert_id();
+    		if ($id > 0) {
+    			return $id;
+    		} else {
+    			return FALSE;
+    		}
     	// }
     }
 
