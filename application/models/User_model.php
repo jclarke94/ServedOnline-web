@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User_model extends SO_Model {
+
 	/**
      * Generates a secure Hash given arbitrary data and a salt
      */
@@ -116,14 +117,14 @@ class User_model extends SO_Model {
     }
 
     public function createAppUser($fName, $lName, $email, $password) {
-    	$this->db->select("id, email");
-    	$this->db->where("email", $email);
-    	$result = $this->db->get("user");
+    	// $this->db->select("id, email");
+    	// $this->db->where("email", $email);
+    	// $result = $this->db->get("user");
 
-    	if ($result > 0 ) {
-    		return "email already exists";
-    	} else {
-    		$displyName = $fName." ".$lName; 
+    	// if ($result > 0 ) {
+    	// 	return "email already exists";
+    	// } else {
+    		$displayName = $fName." ".$lName; 
 
     		$updateData = array(
     			"firstName" => $fName, 
@@ -138,7 +139,7 @@ class User_model extends SO_Model {
 
 
     		$this->db->insert("user", $updateData);
-    	}
+    	// }
     }
 
 
