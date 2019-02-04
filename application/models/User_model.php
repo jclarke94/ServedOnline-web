@@ -116,15 +116,14 @@ class User_model extends SO_Model {
         return FALSE;
     }
 
-    public function createAppUser($fName, $lName, $email, $password) {
+    public function createAppUser($fName, $lName, $displayName, $email, $password) {
     	// $this->db->select("id, email");
     	// $this->db->where("email", $email);
     	// $result = $this->db->get("user");
 
     	// if ($result > 0 ) {
     	// 	return "email already exists";
-    	// } else {
-    		$displayName = $fName." ".$lName; 
+    	// } else { 
 
     		$updateData = array(
     			"firstName" => $fName, 

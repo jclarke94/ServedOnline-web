@@ -13,11 +13,18 @@ class User extends SO_Controller {
 
 		$this->validateParams($postdata, array("firstName", "lastName", "email", "password"));
 
+		$fName = $postdata["firstName"];
+		$lName = $postdata["lastName"];
+		$email = $postdata["email"];
+		$password = $postdata["password"];
+		$displayName = $fName." ".$lName;
+
 		$result = $this->user_model->createAppUser(
-			$postdata["firstName"], 
-			$postdata["lastName"], 
-			$postdata["email"], 
-			$postdata["password"]
+			$fName, 
+			$lName,
+			$displayName,
+			$email,
+			$password
 		);
 
 		if ($result > 0) {
@@ -36,7 +43,13 @@ class User extends SO_Controller {
 			// }
 
 			$outBundle = array(
-				"id" => $result
+				"id" => $result,
+				"firstName" => $fName,
+				"lastName" => $lName,
+				"displayName" => $displayName,
+				"email" => $email,
+				"password" => $password, 
+				"salt" => Null
 			);
 			$this->JSON(array("success" => TRUE, "data" => $outBundle));
 		}
