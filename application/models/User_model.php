@@ -82,25 +82,6 @@ class User_model extends SO_Model {
         return FALSE;
     }
 
-
-
-    public function getUser($userID)
-    {
-        $this->db->select("id,email,firstName,lastName");
-        $this->db->where("id", $userID);
-        $this->db->limit(1);
-        $result = $this->db->get("user");
-
-        if ($result->num_rows() > 0)
-        {
-            $user = $result->first_row();
-            return $user;
-        }
-        return FALSE;
-    }
-
-
-
     public function validateAuthToken($userID, $token) {
 
         $this->db->select("id");
@@ -114,6 +95,23 @@ class User_model extends SO_Model {
             return TRUE;
         }
         return FALSE;
+    }
+
+    public function getAppUser($email, $password) {
+    	$this->db->select("id, firstName, lastName, displayName, email, password");
+    	$this->db->where("email", $email);
+    	$result = $this->db->get("user");
+
+    	if ($result->num_rows() > 0) {
+    		$user = $result->first_row();
+    		if ($user->password = $password) {
+    			return $user;
+    		} else {
+    			return FALSE;
+    		}
+    	} else {
+    		return FALSE;
+    	}
     }
 
     public function createAppUser($fName, $lName, $displayName, $email, $password) {

@@ -8,6 +8,26 @@ class User extends SO_Controller {
         $this->load->model('user_model');
     }
 
+    public function getUser() {
+    	$postdata = $this->input->post();
+
+    	$this->validateParams($postdata, array("email", "password"));
+
+    	$email = $postdata["email"];
+    	$password = $postdata["password"];
+
+    	$result = $this->user_model->getAppUser(
+    		$email, 
+    		$password
+    	);
+
+    	if ($result) {
+    		$this->JSON(array("success" => TRUE, "data" => $result));
+    	}
+
+    	$this->JSON(array("success" => FALSE, "error" => "could not retrieve user"));
+    }
+
 	public function createUser() {
 		$postdata = $this->input->post();
 
