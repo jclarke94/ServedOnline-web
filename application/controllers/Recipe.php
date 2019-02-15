@@ -35,6 +35,64 @@ class Recipe extends SO_Controller {
 
     	$this->JSON(array("success" => FALSE, "error" => "could not create new recipe"));
     }
+
+    public function getRecipes() {
+    	$postdata = $this->input->post();
+
+    	$userId = $postdata["userId"];
+
+    	//todo get list of following userId's 
+
+    	$result = $this->recipe_model->getRecipesList();
+
+    	if ($result) {
+    		$this->JSON(array("success" => TRUE, "data" => $result));
+    	} 
+
+    	$this->JSON(array("success" => FALSE, "error" => "error collecting recipes"));
+    }
+
+    public function getRecipe() {
+    	$postdata = $this->input->post();
+
+    	$this->validateParams($postdata, array("recipeId"));
+
+    	$recipeId = $postdata["recipeId"];
+
+    	$result = $this->recipe_model->getSingleRecipe($recipeId);
+
+    	if ($result) {
+    		$this->JSON(array("success" => TRUE, "data" => $result));
+    	} 
+
+    	$this->JSON(array("success" => FALSE, "error" => $result));
+    }
+
+    public function getUsersRecipes() {
+    	$postdata = $this->input->post();
+
+    	$this->validateParams($postdata, array("userId"));
+
+
+
+
+    }
+
+    public function deleteRecipe() {
+    	$postdata = $this->input->post();
+
+    	$this->validateParams($postdata, array("recipeId"));
+
+    	$recipeId = $postdata["recipeId"];
+
+    	$result = $this->recipe_model->deleteSingleRecipe($recipeId);
+
+    	if ($result) {
+    		$this->JSON(array("success" => TRUE, "data" => $result));
+    	}
+
+    	$this->JSON(array("success" => FALSE, "error" => "unknown error"));
+    }
 }
 
 ?>
