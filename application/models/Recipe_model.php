@@ -45,5 +45,15 @@ class Recipe_model extends SO_Model {
 		return $this->db->affected_rows() > 0;
 	}
 
+	public function getUsersRecipes($userId) {
+		$this->db->select("id, userId, recipeTitle, recipeDescription, timerLength, likes, dateOfCreation");
+		$this->db->where("userId", $userId);
+		$this->db->order_by("id", "desc");
+		$this->db->limit('15');
+		$results = $this->db->get("recipe");
+
+		return $results->result_array();
+	}
+
 }
 ?>

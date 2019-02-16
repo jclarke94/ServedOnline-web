@@ -73,6 +73,15 @@ class Recipe extends SO_Controller {
 
     	$this->validateParams($postdata, array("userId"));
 
+    	$userId = $postdata["userId"];
+
+    	$result = $this->recipe_model->getUsersRecipes($userId);
+
+    	if($result) {
+    		$this->JSON(array("success" => TRUE, "data" => $result));
+    	}
+
+    	$this->JSON(array("success" => FALSE, "error" => "unknown error while gathering users recipes"));
 
 
 
