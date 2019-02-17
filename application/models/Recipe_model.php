@@ -3,11 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Recipe_model extends SO_Model {
 
-	public function createNewRecipe($userId, $recipeTitle, $recipeDescription, $timerLength = NULL) {
+	public function createNewRecipe($userId, $recipeTitle, $recipeDescription, $userName, $timerLength = NULL) {
+
 		$updateData = array(
 			"userId" => $userId, 
 			"recipeTitle" => $recipeTitle,
 			"recipeDescription" => $recipeDescription, 
+			"userName" => $userName,
 			"timerLength" => $timerLength
 		);
 
@@ -21,7 +23,7 @@ class Recipe_model extends SO_Model {
 	}
 
 	public function getRecipesList() {
-		$this->db->select("id, userId, recipeTitle, recipeDescription, timerLength, likes, dateOfCreation");
+		$this->db->select("id, userId, recipeTitle, recipeDescription, userName, timerLength, likes, dateOfCreation");
 		$this->db->where("active", 1);
 		$this->db->order_by("id", "desc");
 		$this->db->limit('15');
@@ -31,7 +33,7 @@ class Recipe_model extends SO_Model {
 	}
 
 	public function getSingleRecipe($id) {
-		$this->db->select("id, userId, recipeTitle, recipeDescription, timerLength, likes, dateOfCreation");
+		$this->db->select("id, userId, recipeTitle, recipeDescription, userName, timerLength, likes, dateOfCreation");
 		$this->db->where("id", $id);
 		$result = $this->db->get("recipe");
 
@@ -46,7 +48,7 @@ class Recipe_model extends SO_Model {
 	}
 
 	public function getUsersRecipes($userId) {
-		$this->db->select("id, userId, recipeTitle, recipeDescription, timerLength, likes, dateOfCreation");
+		$this->db->select("id, userId, recipeTitle, recipeDescription, userName, timerLength, likes, dateOfCreation");
 		$this->db->where("userId", $userId);
 		$this->db->order_by("id", "desc");
 		$this->db->limit('15');

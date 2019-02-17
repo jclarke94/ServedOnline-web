@@ -7,6 +7,7 @@ class Recipe extends SO_Controller {
     {
         parent::__construct();
         $this->load->model('recipe_model');
+        $this->load->model('user_model');
     }
 
     public function createRecipe() {
@@ -26,8 +27,10 @@ class Recipe extends SO_Controller {
     		$timerLength = $postdata["timerLength"];
     	} 
     	
-
-    	$result = $this->recipe_model->createNewRecipe($userId, $recipeTitle, $recipeDescription, $timerLength);
+    	$userName = $this->user_model->getUserName($userId);
+    	if ($userName) {
+    		$result = $this->recipe_model->createNewRecipe($userId, $recipeTitle, $recipeDescription, $userName, $timerLength);
+    	}
 
     	if ($result) {
     		$this->JSON(array("success" => TRUE, "data" => $result));

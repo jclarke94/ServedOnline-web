@@ -3,6 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User_model extends SO_Model {
 
+    public function getUserName($userId) {
+        $this->db->select("displayName");
+        $this->db->where("id", $userId);
+        $result = $this->db->get("user");
+
+        $obj = $result->first_row();
+
+        return $obj->displayName;
+    }
+
 	/**
      * Generates a secure Hash given arbitrary data and a salt
      */
