@@ -57,5 +57,35 @@ class Recipe_model extends SO_Model {
 		return $results->result_array();
 	}
 
+	public function createNewRecipeStep($recipeId, $stepDescription, $stepNumber, $finalStep, $timer = NULL) {
+
+		$updateData = array(
+			"recipeId" => $recipeId, 
+			"stepDescription" => $stepDescription, 
+			"stepNumber" => $stepNumber, 
+			"finalStep" => $finalStep, 
+			"timer" => $timer
+		);
+
+		$this->db->insert("recipeSteps", $updateData);
+		$id = $this->db->insert_id();
+		if ($id) {
+			return $id;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function getSteps($recipeId) {
+		$this->db->select("id, recipeId, stepDescription, stepNumber, finalStep, timer");
+		$this->db->where("recipeId", $recipeId);
+		$this->db->order_by("stepNumber", "asc");
+		$results = $this->db->get("recipeSteps");
+
+		return $results->result_array();
+	}
+
+
+
 }
 ?>
