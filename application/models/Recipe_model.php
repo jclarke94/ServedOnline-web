@@ -26,7 +26,7 @@ class Recipe_model extends SO_Model {
 		$this->db->select("id, userId, recipeTitle, recipeDescription, userName, timerLength, likes, dateOfCreation");
 		$this->db->where("active", 1);
 		$this->db->order_by("id", "desc");
-		$this->db->limit('15');
+		$this->db->limit('30');
 		$results = $this->db->get("recipe");
 
 		return $results->result_array();
@@ -85,6 +85,44 @@ class Recipe_model extends SO_Model {
 		return $results->result_array();
 	}
 
+	public function deleteStep($id) {
+		$this->db->where("id", $id);
+		$this->db->delete("recipeSteps");
+
+		return $this->db->affected_rows() > 0;
+	}
+
+	public function createNewIngredient($recipeId, $stepNumber, $ingredient) {
+		$updateData = array(
+			"recipeId" => $recipeId, 
+			"stepNumber" => $stepNumber,
+			"ingredient" => $ingredient
+		);
+
+		$this->db->insert("recipeIngredients", $updateData);
+		$id = $this->db->insert_id();
+		if ($id) {
+			return $id;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function getIngredientsForRecipe($recipeId) {
+		$this->db->select("id, recipeId, stepNumber, ingredient");
+		$this->db->where("recipeId", $recipeId);
+		$this->db->order_by("id", "asc");
+		$result = $this->db->get("recipeIngredients");
+
+		return $result->result_array();
+	}
+
+	public function deleteIngredient($id) {
+		$this->db->where("id", $id);
+		$this->db->delete("recipeIngredients");
+
+		return $this->db->affected_rows() > 0;
+	}
 
 
 }

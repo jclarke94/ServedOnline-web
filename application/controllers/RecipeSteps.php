@@ -27,7 +27,6 @@ class RecipeSteps extends SO_Controller {
     	if (isset($postdata["timer"])) {
     		$timer = $postdata["timer"];
     	}
-    	
 
     	$result = $this->recipe_model->createNewRecipeStep($recipeId, $stepDescription, $stepNumber, $finalStep, $timer);
 
@@ -52,6 +51,22 @@ class RecipeSteps extends SO_Controller {
     	}
 
     	$this->JSON(array("success" => FALSE, "error" => "could not retrieve steps"));
+    }
+
+    public function removeStep() {
+    	$postdata = $this->input->post();
+
+    	$this->validateParams($postdata, array("id"));
+
+    	$id = $postdata["id"];
+
+    	$result = $this->recipe_model->deleteStep($id);
+
+    	if ($result) {
+    		$this->JSON(array("success" => TRUE));
+    	}
+
+    	$this->JSON(array("success" => FALSE));
     }
 }
 
